@@ -1,5 +1,5 @@
 {
   "rust-analyzer.linkedProjects": [
-    "first-tauri-app/src-tauri/Cargo.toml"
+    "e-Hanoi-Launcher/src-tauri/Cargo.toml"
   ]
 }
