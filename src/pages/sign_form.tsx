@@ -10,16 +10,15 @@ import { auth } from '../utils/firebase/auth';
 const SignForm: NextPage = () => {
   const [userState, setUser] = useState<User | null>(null);
 
-  useEffect(
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
       } else {
         setUser(null);
       }
-    }),
-    []
-  );
+    });
+  }, []);
 
   return (
     <Layout>
