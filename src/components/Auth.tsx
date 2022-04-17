@@ -1,9 +1,9 @@
 import { EmailAuthProvider, GithubAuthProvider } from 'firebase/auth';
-import FirebaseAuth from 'react-firebaseui/FirebaseAuth';
-import { auth } from '../firebase/auth';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { auth } from '../utils/firebase/auth';
 
 const uiConfig = {
-  signInFlow: 'popup',
+  signInFlow: 'redirect',
   signInSuccessUrl: '/',
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
@@ -12,10 +12,5 @@ const uiConfig = {
 };
 
 export default function Auth() {
-  return (
-    <div>
-      <div>Please sign-in:</div>
-      <FirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
-    </div>
-  );
+  return <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />;
 }
