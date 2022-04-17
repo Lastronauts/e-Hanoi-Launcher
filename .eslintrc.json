@@ -16,5 +16,7 @@
     "project": "./tsconfig.json"
   },
   "root": true,
-  "rules": {}
+  "rules": {
+    "@next/next/no-img-element": "off"
+  }
 }

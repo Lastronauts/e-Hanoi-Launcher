@@ -1,5 +1,4 @@
 import Router from 'next/router';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -78,7 +77,7 @@ export default function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Button onClick={() => routing_handler('/')}>
-            <Image src="/favicon.ico" width={50} height={50} alt="Logo" />
+            <img src="/favicon.ico" width={50} height={50} alt="Logo" />
           </Button>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

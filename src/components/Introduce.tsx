@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
@@ -6,7 +5,7 @@ export default function Introduce() {
   return (
     <Grid container spacing={2} p={5}>
       <Grid item>
-        <Image
+        <img
           src="/icon-transparency.png"
           width={651}
           height={646}
