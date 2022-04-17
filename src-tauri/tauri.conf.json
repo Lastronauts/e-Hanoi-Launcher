@@ -14,9 +14,7 @@
       "active": true,
       "targets": "all",
       "identifier": "com.tauri.dev",
-      "icon": [
-        "icons/icon.ico"
-      ],
+      "icon": ["icons/icon.ico", "icons/icon.png"],
       "resources": [],
       "externalBin": [],
       "copyright": "",
