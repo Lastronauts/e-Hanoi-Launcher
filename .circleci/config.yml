@@ -6,13 +6,13 @@ executors:
       - image: 'cimg/rust:1.60.0-node'
 
 jobs:
-  ts-lint:
+  TypeScript-lint:
     executor: 'rust_ts_default'
     steps:
       - 'checkout'
       - run: 'yarn install'
       - run: 'yarn lint'
-  rust-lint:
+  Rust-lint:
     executor: 'rust_ts_default'
     steps:
       - 'checkout'
@@ -37,6 +37,6 @@ workflows:
   version: 2
   run_test:
     jobs:
-      - 'ts-lint'
-      - 'rust-lint'
+      - 'TypeScript-lint'
+      - 'Rust-lint'
       - 'build'
