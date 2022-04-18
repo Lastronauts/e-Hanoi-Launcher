@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,11 +11,12 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import LoginIcon from '@mui/icons-material/Login';
-import { User, onAuthStateChanged } from 'firebase/auth';
-import { auth, logout } from '../../utils/firebase/auth';
+import { invoke } from '@tauri-apps/api/tauri';
+import { AuthContext } from './AuthProvider';
+import { logout } from '../../utils/firebase/auth';
 import iconMaker from '../../utils/iconMaker';
 
-const pages = ['Ranking👑'];
+const pages = ['Ranking👑', 'Launch e-Hanoi🎮'];
 const settings = ['Account', 'Dashboard', 'SignOut'];
 
 const routing_handler = (pages: string) => {
@@ -25,6 +26,9 @@ const routing_handler = (pages: string) => {
       break;
     case 'Ranking👑':
       Router.push('/ranking');
+      break;
+    case 'Launch e-Hanoi🎮':
+      invoke('launch_game').catch((err) => alert(err));
       break;
     case 'Account':
       Router.push('/account');
@@ -50,22 +54,15 @@ export default function Header() {
     setAnchorElUser(null);
   };
 
-  const [userState, setUser] = useState<User | null>(null);
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(null);
-    }
-  });
+  const { currentUser } = useContext(AuthContext);
 
   const [photoURLState, setPhotoURL] = useState<string | null>(null);
   useEffect(() => {
     (async () => {
-      if (userState && userState.photoURL) {
-        setPhotoURL(userState.photoURL);
-      } else if (userState && userState.displayName) {
-        setPhotoURL(await iconMaker(userState.displayName));
+      if (currentUser && currentUser.photoURL) {
+        setPhotoURL(currentUser.photoURL);
+      } else if (currentUser && currentUser.displayName) {
+        setPhotoURL(await iconMaker(currentUser.displayName));
       } else {
         setPhotoURL(null);
       }
@@ -94,7 +91,7 @@ export default function Header() {
 
           <Box sx={{ flexGrow: 0 }}>
             {(() => {
-              if (userState && photoURLState) {
+              if (currentUser && photoURLState) {
                 return (
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar src={photoURLState} alt="user icon" />
