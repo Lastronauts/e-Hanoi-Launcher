@@ -1,24 +1,13 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
-import { User, onAuthStateChanged } from 'firebase/auth';
+import { useContext } from 'react';
 import Layout from '../components/common/Layout';
+import { AuthContext } from '../components/common/AuthProvider';
 import Auth from '../components/Auth';
 import AlreadySignedIn from '../components/AlreadySignedIn';
-import { auth } from '../utils/firebase/auth';
 
 const SignForm: NextPage = () => {
-  const [userState, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-  }, []);
+  const { isSignedIn } = useContext(AuthContext);
 
   return (
     <Layout>
@@ -27,7 +16,7 @@ const SignForm: NextPage = () => {
       </Head>
       <main>
         <div style={{ margin: 10 }}>
-          {userState ? <AlreadySignedIn /> : <Auth />}
+          {isSignedIn ? <AlreadySignedIn /> : <Auth />}
         </div>
       </main>
     </Layout>
