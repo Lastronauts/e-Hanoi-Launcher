@@ -6,6 +6,7 @@ const mouseStalkerStyles = {
   height: 30,
   borderRadius: 15,
   zIndex: 999,
+  backgroundColor: '#00000080',
 };
 
 export default function MouseStalker() {
@@ -34,7 +35,6 @@ export default function MouseStalker() {
       style={{
         pointerEvents: 'none',
         position: 'fixed',
-        backgroundColor: '#00000080',
         ...mouseStalkerStyles,
         ...springStyles,
       }}
