@@ -4,7 +4,7 @@ import { auth } from '../utils/firebase/auth';
 
 const uiConfig = {
   signInFlow: 'popup',
-  signInSuccessUrl: '/',
+  signInSuccessUrl: '/create_user',
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
     GithubAuthProvider.PROVIDER_ID,

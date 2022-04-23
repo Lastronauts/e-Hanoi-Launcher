@@ -28,9 +28,16 @@ const AuthProvider = (props: Props) => {
       if (user) {
         setCurrentUser(user);
         setIsSignedIn(true);
+
+        (async () => {
+          const token = await user.getIdToken();
+          localStorage.setItem('token', token);
+        })();
       } else {
         setCurrentUser(null);
         setIsSignedIn(false);
+
+        localStorage.removeItem('token');
       }
     });
   });
