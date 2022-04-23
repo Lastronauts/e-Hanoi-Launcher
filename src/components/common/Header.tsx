@@ -58,16 +58,28 @@ export default function Header() {
 
   const [photoURLState, setPhotoURL] = useState<string | null>(null);
   useEffect(() => {
+    let unmounted = false;
+
     (async () => {
       if (currentUser && currentUser.photoURL) {
-        setPhotoURL(currentUser.photoURL);
+        if (!unmounted) {
+          setPhotoURL(currentUser.photoURL);
+        }
       } else if (currentUser && currentUser.displayName) {
-        setPhotoURL(await iconMaker(currentUser.displayName));
+        if (!unmounted) {
+          setPhotoURL(await iconMaker(currentUser.displayName));
+        }
       } else {
-        setPhotoURL(null);
+        if (!unmounted) {
+          setPhotoURL(null);
+        }
       }
     })();
-  });
+
+    return () => {
+      unmounted = true;
+    };
+  }, [currentUser]);
 
   return (
     <AppBar position="static" color="inherit">
