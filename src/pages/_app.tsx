@@ -1,6 +1,8 @@
 import type { AppProps } from 'next/app';
+import { ApolloProvider } from '@apollo/client';
 import { AuthProvider } from '../components/common/AuthProvider';
 import MouseStalker from '../components/common/mouseStalker';
+import graphqlClient from '../graphql';
 import '../styles/global.css';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -8,7 +10,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <div>
       <MouseStalker />
       <AuthProvider>
-        <Component {...pageProps} />
+        <ApolloProvider client={graphqlClient}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </AuthProvider>
     </div>
   );
