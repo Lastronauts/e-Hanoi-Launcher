@@ -1,0 +1,6 @@
+mutation createUserInDB($newUser: NewUser!) {
+  createUserInDB(newUser: $newUser) {
+    id
+    name
+  }
+}
