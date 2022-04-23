@@ -1,8 +1,8 @@
 import Router from 'next/router';
-import { useEffect, useContext } from 'react';;
-import { useCreateUserInDbMutation } from '../../queries/user/createUserInDB.generated';
+import { useEffect, useContext } from 'react';
 import { AuthContext } from '../../../components/common/AuthProvider';
-import { logout } from '../../../utils/firebase/auth'
+import { useCreateUserInDbMutation } from '../../queries/user/createUserInDB.generated';
+import { logout } from '../../../utils/firebase/auth';
 
 export default function CreateUserInDbHandler() {
   const [createUserInDbMutation, { loading, error, data }] =
@@ -10,28 +10,33 @@ export default function CreateUserInDbHandler() {
 
   const { currentUser } = useContext(AuthContext);
 
-  if (currentUser && currentUser.displayName) {
-    createUserInDbMutation({
-      variables: {
-        newUser: {
-          name: currentUser.displayName,
-        },
-      },
-    });
+  useEffect(() => {
+    (async () => {
+      if (currentUser && currentUser.displayName) {
+        await createUserInDbMutation({
+          variables: {
+            newUser: {
+              name: currentUser.displayName,
+            },
+          },
+        });
+      }
+    })();
+  }, [currentUser, createUserInDbMutation]);
+
+  if (error) {
+    console.error(error);
+    logout();
+    Router.push('/');
   }
 
-  useEffect(() => {
-    if (error) {
-      console.error(error);
-      logout();
-      Router.push('/');
-    }
-  });
+  if (data) {
+    Router.push('/');
+  }
 
   return (
     <div>
       <div>{loading ? 'loading' : ''}</div>
-      <div>{data ? data.createUserInDB.name : 'undefined'}</div>
     </div>
   );
 }
