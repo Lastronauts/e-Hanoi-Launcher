@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
-import { AuthProvider } from '../components/common/AuthProvider';
+import { AuthProvider } from '../components/context/AuthProvider';
 import MouseStalker from '../components/common/mouseStalker';
 import graphqlClient from '../graphql';
 import '../styles/global.css';

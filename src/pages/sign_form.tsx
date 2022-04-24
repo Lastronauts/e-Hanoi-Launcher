@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useContext } from 'react';
 import Layout from '../components/common/Layout';
-import { AuthContext } from '../components/common/AuthProvider';
+import { AuthContext } from '../components/context/AuthProvider';
 import Auth from '../components/Auth';
 import AlreadySignedIn from '../components/AlreadySignedIn';
 

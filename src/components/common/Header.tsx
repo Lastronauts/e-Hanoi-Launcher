@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import LoginIcon from '@mui/icons-material/Login';
 import { invoke } from '@tauri-apps/api/tauri';
-import { AuthContext } from './AuthProvider';
+import { AuthContext } from '../context/AuthProvider';
 import { logout } from '../../utils/firebase/auth';
 import iconMaker from '../../utils/iconMaker';
 
