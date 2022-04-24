@@ -56,7 +56,7 @@ export default function RankingTable(props: Props) {
           <TableRow>
             <StyledTableCell align="center">Rank</StyledTableCell>
             <StyledTableCell align="right">User Name</StyledTableCell>
-            <StyledTableCell align="right">Clear Time(g)</StyledTableCell>
+            <StyledTableCell align="right">Clear Time</StyledTableCell>
             <StyledTableCell align="right">Timestamp</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -68,7 +68,9 @@ export default function RankingTable(props: Props) {
               </StyledTableCell>
               <StyledTableCell align="right">{row.user_name}</StyledTableCell>
               <StyledTableCell align="right">{row.clearTime}</StyledTableCell>
-              <StyledTableCell align="right">{row.createdAt}</StyledTableCell>
+              <StyledTableCell align="right">
+                {new Date(row.createdAt * 1000).toString()}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
