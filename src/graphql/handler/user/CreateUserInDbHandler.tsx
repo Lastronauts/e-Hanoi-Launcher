@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../../components/context/AuthProvider';
+import Loading from '../../../components/common/Loading';
 import { useListUserLazyQuery } from '../../queries/user/listUser.generated';
 import { useCreateUserInDbMutation } from '../../queries/user/createUserInDB.generated';
 import { logout } from '../../../utils/firebase/auth';
@@ -61,9 +62,5 @@ export default function CreateUserInDbHandler() {
     Router.push('/');
   }
 
-  return (
-    <div>
-      <div>{loading ? 'loading' : ''}</div>
-    </div>
-  );
+  return <div>{loading ? <Loading /> : ''}</div>;
 }

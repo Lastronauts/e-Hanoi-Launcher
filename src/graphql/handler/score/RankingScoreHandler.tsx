@@ -1,4 +1,5 @@
 import { useRankingScoreQuery } from '../../queries/score/rankingScore.generated';
+import Loading from '../../../components/common/Loading';
 import RankingTable, {
   createTableData,
 } from '../../../components/RankingTable';
@@ -6,7 +7,9 @@ import RankingTable, {
 export default function RankingScore() {
   const { loading, error, data } = useRankingScoreQuery();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <Loading />;
+  }
   if (error || !data) {
     console.error(JSON.stringify(error, null, 2));
     console.error(JSON.stringify(data, null, 2));
