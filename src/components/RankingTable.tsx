@@ -56,20 +56,22 @@ export default function RankingTable(props: Props) {
           <TableRow>
             <StyledTableCell align="center">Rank</StyledTableCell>
             <StyledTableCell align="right">User Name</StyledTableCell>
-            <StyledTableCell align="right">Clear Time</StyledTableCell>
-            <StyledTableCell align="right">Timestamp</StyledTableCell>
+            <StyledTableCell align="right">Clear Time(s)</StyledTableCell>
+            <StyledTableCell align="right">
+              Timestamp(日本標準時)
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.rows.map((row, index) => (
             <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row" align="center">
-                {index}
+                {index + 1}
               </StyledTableCell>
               <StyledTableCell align="right">{row.user_name}</StyledTableCell>
               <StyledTableCell align="right">{row.clearTime}</StyledTableCell>
               <StyledTableCell align="right">
-                {new Date(row.createdAt * 1000).toString()}
+                {new Date(row.createdAt * 1000).toString().slice(0, -16)}
               </StyledTableCell>
             </StyledTableRow>
           ))}
