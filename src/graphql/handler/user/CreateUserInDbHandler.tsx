@@ -1,28 +1,55 @@
 import Router from 'next/router';
-import { useEffect, useContext } from 'react';
-import { AuthContext } from '../../../components/common/AuthProvider';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../../components/context/AuthProvider';
+import { useListUserLazyQuery } from '../../queries/user/listUser.generated';
 import { useCreateUserInDbMutation } from '../../queries/user/createUserInDB.generated';
 import { logout } from '../../../utils/firebase/auth';
 
 export default function CreateUserInDbHandler() {
+  const [listUserQuery, listUserState] = useListUserLazyQuery();
   const [createUserInDbMutation, { loading, error, data }] =
     useCreateUserInDbMutation();
+
+  const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(undefined);
 
   const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
       if (currentUser && currentUser.displayName) {
-        await createUserInDbMutation({
+        const listUser = await listUserQuery({
           variables: {
-            newUser: {
-              name: currentUser.displayName,
-            },
+            name: currentUser.displayName,
           },
         });
+
+        if (listUser.data) {
+          const isIncludesUID = listUser.data.listUser
+            .map((user) => {
+              return user.id;
+            })
+            .includes(currentUser.uid);
+          if (!isIncludesUID) {
+            await createUserInDbMutation({
+              variables: {
+                newUser: {
+                  name: currentUser.displayName,
+                },
+              },
+            });
+          } else {
+            setIsSignedIn(true);
+          }
+        }
       }
     })();
-  }, [currentUser, createUserInDbMutation]);
+  }, [currentUser, createUserInDbMutation, listUserQuery]);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      Router.push('/');
+    }
+  }, [isSignedIn]);
 
   if (error) {
     console.error(error);
