@@ -1,0 +1,6 @@
+query listUser($name: String!, $start: Int, $range: Int) {
+  listUser(name: $name, start: $start, range: $range) {
+    id
+    name
+  }
+}

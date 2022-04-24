@@ -1,0 +1,12 @@
+query rankingScore {
+  rankingScore {
+    id
+    userID
+    clearTime
+    createdAt
+    user {
+      id
+      name
+    }
+  }
+}
