@@ -12,9 +12,9 @@ fn main() -> Result<()> {
 }
 
 #[tauri::command]
-fn launch_game() -> Result<(), String> {
+fn launch_game(token: String) -> Result<(), String> {
     let target = "./e-hanoi.exe";
-    match Command::new(target).spawn() {
+    match Command::new(target).arg(token).spawn() {
         Ok(_) => Ok(()),
         Err(err) => {
             let err_msg = format!(

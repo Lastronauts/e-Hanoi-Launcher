@@ -15,11 +15,24 @@ import { invoke } from '@tauri-apps/api/tauri';
 import { AuthContext } from '../context/AuthProvider';
 import { logout } from '../../utils/firebase/auth';
 import iconMaker from '../../utils/iconMaker';
+import { User } from 'firebase/auth';
 
 const pages = ['Ranking👑', 'Launch e-Hanoi🎮'];
 const settings = ['Account', 'Dashboard', 'SignOut'];
 
-const routing_handler = (pages: string) => {
+const routing_handler = (
+  pages: string,
+  currentUser: User | null | undefined
+) => {
+  let token = '';
+  (() => {
+    if (currentUser) {
+      async () => {
+        token = await currentUser.getIdToken();
+      };
+    }
+  })();
+
   switch (pages) {
     case '/':
       Router.push('/');
@@ -28,7 +41,7 @@ const routing_handler = (pages: string) => {
       Router.push('/ranking');
       break;
     case 'Launch e-Hanoi🎮':
-      invoke('launch_game').catch((err) => alert(err));
+      invoke('launch_game', { token }).catch((err) => alert(err));
       break;
     case 'Account':
       Router.push('/account');
@@ -85,7 +98,7 @@ export default function Header() {
     <AppBar position="static" color="inherit">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Button onClick={() => routing_handler('/')}>
+          <Button onClick={() => routing_handler('/', currentUser)}>
             <img src="/favicon.ico" width={50} height={50} alt="Logo" />
           </Button>
 
@@ -93,7 +106,7 @@ export default function Header() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={() => routing_handler(page)}
+                onClick={() => routing_handler(page, currentUser)}
                 sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page}
@@ -143,7 +156,7 @@ export default function Header() {
                   key={setting}
                   onClick={() => {
                     handleCloseUserMenu();
-                    routing_handler(setting);
+                    routing_handler(setting, currentUser);
                   }}
                 >
                   <Typography textAlign="center">{setting}</Typography>
